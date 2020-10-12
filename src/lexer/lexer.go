@@ -7,7 +7,7 @@ type Lexer struct {
 	position     int  // current position in input (points to current char)
 	readPosition int  // current reading position in input (after current char)
 	ch           byte // current char under examination
-					  // todo: "ch" could be of <rune> type in the feature for the all unicode support
+	// todo: "ch" could be of <rune> type in the feature for the all unicode support
 }
 
 func New(input string) *Lexer {
@@ -26,7 +26,6 @@ func (l *Lexer) readChar() {
 	l.position = l.readPosition
 	l.readPosition += 1
 }
-
 
 func (l *Lexer) NextToken() token.Token {
 	var tok token.Token
@@ -54,6 +53,7 @@ func (l *Lexer) NextToken() token.Token {
 	default:
 		if isLetter(l.ch) {
 			tok.Literal = l.readIdentifier()
+			tok.Type = token.LookupIdent()
 			return tok
 		} else {
 			tok = newToken(token.ILLEGAL, l.ch)
@@ -67,7 +67,7 @@ func (l *Lexer) NextToken() token.Token {
 
 func newToken(tokenType token.TokenType, ch byte) token.Token {
 	return token.Token{
-		Type: tokenType,
+		Type:    tokenType,
 		Literal: string(ch),
 	}
 }
