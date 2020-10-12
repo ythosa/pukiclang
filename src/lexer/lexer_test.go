@@ -1,8 +1,9 @@
 package lexer
 
 import (
-	"github.com/ythosa/pukiclang/src/token"
 	"testing"
+
+	"github.com/ythosa/pukiclang/src/token"
 )
 
 func TestNextToken(t *testing.T) {
