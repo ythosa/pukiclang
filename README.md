@@ -44,6 +44,7 @@ let fibonacci = fn(x) {
     }
   }
 };
+```
 
 ### High order function:
 ```
