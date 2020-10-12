@@ -1,0 +1,26 @@
+run:
+  concurrency: 4
+  modules-download-mode: vendor
+
+linters:
+  enable-all: true
+  disable:
+    - goimports
+    - gofmt
+    - gosec
+    - wsl
+
+linters-settings:
+  funlen:
+    lines: 100
+    statements: 100
+
+issues:
+  exclude-rules:
+    - linters:
+        - goerr113
+      text: "do not define dynamic errors"
+
+  # Display all issues
+  max-issues-per-linter: 0
+  max-same-issues: 0
