@@ -46,7 +46,7 @@ let fibonacci = fn(x) {
 };
 ```
 
-### High order function:
+#### High order function:
 ```
 let twice = fn(f, x) {
   return f(f(x));
