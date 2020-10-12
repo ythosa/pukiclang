@@ -21,7 +21,13 @@ if (5 < 10) {
 	return true;
 } else {
 	return false;
-}`
+}
+
+10 == 10;
+10 != 9;
+
+2 >= 1 <= 3
+`
 	tests := []struct {
 		expectedType    token.TokenType
 		expectedLiteral string
@@ -74,11 +80,6 @@ if (5 < 10) {
 		{token.GT, ">"},
 		{token.INT, "5"},
 		{token.SEMICOLON, ";"},
-		//if (5 < 10) {
-		//	return true;
-		//} else {
-		//	return false;
-		//}
 		{token.IF, "if"},
 		{token.LPAREN, "("},
 		{token.INT, "5"},
@@ -96,6 +97,19 @@ if (5 < 10) {
 		{token.FALSE, "false"},
 		{token.SEMICOLON, ";"},
 		{token.RBRACE, "}"},
+		{token.INT, "10"},
+		{token.EQ, "=="},
+		{token.INT, "10"},
+		{token.SEMICOLON, ";"},
+		{token.INT, "10"},
+		{token.NOT_EQ, "!="},
+		{token.INT, "9"},
+		{token.SEMICOLON, ";"},
+		{token.INT, "2"},
+		{token.GTEQ, ">="},
+		{token.INT, "1"},
+		{token.LTEQ, "<="},
+		{token.INT, "3"},
 		{token.EOF, ""},
 	}
 
