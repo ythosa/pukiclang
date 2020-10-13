@@ -1,8 +1,9 @@
-package lexer
+package lexer_test
 
 import (
 	"testing"
 
+	"github.com/ythosa/pukiclang/src/lexer"
 	"github.com/ythosa/pukiclang/src/token"
 )
 
@@ -114,7 +115,7 @@ if (5 < 10) {
 		{token.EOF, ""},
 	}
 
-	l := New(input)
+	l := lexer.New(input)
 	for i, tt := range tests {
 		tok := l.NextToken()
 
