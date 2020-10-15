@@ -12,7 +12,7 @@ func TestLetStatement(t *testing.T) {
 	input := `
 let x = 5;
 let y = 10;
-let foobar = 228
+let foobar = 228;
 `
 	l := lexer.New(input)
 	p := parser.New(l)
