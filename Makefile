@@ -10,4 +10,8 @@ lint:
 test:
 	go test -v ./src/...
 
+.PHONY: pipeline
+pipeline:
+	make test && make
+
 .DEFAULT_GOAL := run
