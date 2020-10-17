@@ -2,6 +2,10 @@
 run:
 	go run ./src/main.go
 
+.PHONY: build
+build:
+	go build -o build/linkschecker -v ./src/main.go
+
 .PHONY: lint
 lint:
 	golangci-lint run
