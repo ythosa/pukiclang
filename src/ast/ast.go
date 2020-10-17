@@ -141,3 +141,8 @@ func (il *IntegerLiteral) TokenLiteral() string {
 func (il *IntegerLiteral) String() string {
 	return il.Token.Literal
 }
+
+type PrefixExpression struct {
+	Token      token.Token
+	Expression Expression
+}
