@@ -151,13 +151,42 @@ func (p *Parser) parseReturnStatement() ast.Statement {
 const (
     _ int = iota
     LOWEST
-    EQUALS      // ==
+    EQUALS      // == or !=
     LESSGREATER // > or < or >= or <=
     SUM         // +
     PRODUCT     // *
     PREFIX      // -X or !X
     CALL        // myFunction(X)
 )
+
+var precedences = map[token.TokenType]int{
+    token.EQ: EQUALS,
+    token.NOT_EQ: EQUALS,
+    token.GT: LESSGREATER,
+    token.LT: LESSGREATER,
+    token.GTEQ: LESSGREATER,
+    token.LTEQ: LESSGREATER,
+    token.PLUS: SUM,
+    token.MINUS: SUM,
+    token.SLASH: PRODUCT,
+    token.ASTERISK: PRODUCT,
+}
+
+func (p *Parser) peekPrecedence() int {
+    if p, ok := precedences[p.peekToken.Type]; ok {
+        return p
+    }
+
+    return LOWEST
+}
+
+func (p *Parser) curPrecedence() int {
+    if p, ok := precedences[p.curToken.Type]; ok {
+        return p
+    }
+
+    return LOWEST
+}
 
 func (p *Parser) parseExpressionStatement() *ast.ExpressionStatement {
     stmt := &ast.ExpressionStatement{Token: p.curToken}
@@ -197,6 +226,17 @@ func (p *Parser) parsePrefixExpression() ast.Expression {
 
     p.nextToken()
     expression.Right = p.parseExpression(PREFIX)
+
+    return expression
+}
+
+func (p *Parser) parseInfixExpression() ast.Expression {
+    expression := &ast.InfixExpression{
+        Token:    p.curToken,
+        Operator: p.curToken.Literal,
+    }
+
+    p.nextToken()
 
     return expression
 }
