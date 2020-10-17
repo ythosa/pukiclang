@@ -1,4 +1,7 @@
 # pukiclang
+![pukiclang](https://github.com/Ythosa/pukiclang/workflows/pukiclang/badge.svg)
+
+## Description
 PukicLang is interpreter for PukicLang programming language
 
 ## Syntax
