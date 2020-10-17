@@ -38,6 +38,18 @@ func New(l *lexer.Lexer) *Parser {
     p.registerPrefix(token.BANG, p.parsePrefixExpression)
     p.registerPrefix(token.MINUS, p.parsePrefixExpression)
 
+    p.infixParseFns = make(map[token.TokenType]infixParseFn)
+    p.registerInfix(token.PLUS, p.parseInfixExpression)
+    p.registerInfix(token.MINUS, p.parseInfixExpression)
+    p.registerInfix(token.SLASH, p.parseInfixExpression)
+    p.registerInfix(token.ASTERISK, p.parseInfixExpression)
+    p.registerInfix(token.EQ, p.parseInfixExpression)
+    p.registerInfix(token.NOT_EQ, p.parseInfixExpression)
+    p.registerInfix(token.LT, p.parseInfixExpression)
+    p.registerInfix(token.GT, p.parseInfixExpression)
+    p.registerInfix(token.LTEQ, p.parseInfixExpression)
+    p.registerInfix(token.GTEQ, p.parseInfixExpression)
+
     // Read two tokens, so curToken and peekToken are both set
     p.nextToken()
     p.nextToken()
@@ -212,8 +224,18 @@ func (p *Parser) parseExpression(precedence int) ast.Expression {
         p.noPrefixParseFnError(p.curToken.Type)
         return nil
     }
-
     leftExp := prefix()
+
+    for !p.peekTokenIs(token.SEMICOLON) && precedence < p.peekPrecedence() {
+        infix := p.infixParseFns[p.peekToken.Type]
+        if infix == nil {
+            return leftExp
+        }
+
+        p.nextToken()
+
+        leftExp = infix(leftExp)
+    }
 
     return leftExp
 }
@@ -230,13 +252,16 @@ func (p *Parser) parsePrefixExpression() ast.Expression {
     return expression
 }
 
-func (p *Parser) parseInfixExpression() ast.Expression {
+func (p *Parser) parseInfixExpression(left ast.Expression) ast.Expression {
     expression := &ast.InfixExpression{
         Token:    p.curToken,
+        Left: left,
         Operator: p.curToken.Literal,
     }
 
+    precedence := p.curPrecedence()
     p.nextToken()
+    expression.Right = p.parseExpression(precedence)
 
     return expression
 }
