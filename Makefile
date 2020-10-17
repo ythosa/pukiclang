@@ -12,7 +12,7 @@ lint:
 
 .PHONY: test
 test:
-	go test -v ./src/...
+	go test -v -race -timeout 30s ./src/...
 
 .PHONY: pipeline
 pipeline:

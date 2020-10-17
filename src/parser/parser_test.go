@@ -1,6 +1,7 @@
 package parser_test
 
 import (
+    "fmt"
     "testing"
 
     "github.com/ythosa/pukiclang/src/ast"
@@ -12,7 +13,7 @@ func TestLetStatement(t *testing.T) {
     input := `
 let x = 5;
 let y = 10;
-let foobar = 228;
+let mamixLoh = 228;
 `
     l := lexer.New(input)
     p := parser.New(l)
@@ -32,7 +33,7 @@ let foobar = 228;
     }{
         {"x"},
         {"y"},
-        {"foobar"},
+        {"mamixLoh"},
     }
 
     for i, tt := range tests {
@@ -216,5 +217,30 @@ func TestParsingPrefixExpressions(t *testing.T) {
             t.Fatalf("exp.Operator is not '%s'. got=%s",
                 tt.operator, exp.Operator)
         }
+
+        if !testIntegerLiteral(t, exp.Right, tt.integerValue) {
+            return
+        }
     }
+}
+
+func testIntegerLiteral(t *testing.T, il ast.Expression, value int64) bool {
+    integer, ok := il.(*ast.IntegerLiteral)
+    if !ok {
+        t.Errorf("il not *ast.IntegerLiteral. got=%T", il)
+        return false
+    }
+
+    if integer.Value != value {
+        t.Errorf("integ.Value not %d. got=%d", value, integer.Value)
+        return false
+    }
+
+    if integer.TokenLiteral() != fmt.Sprintf("%d", value) {
+        t.Errorf("integ.TokenLiteral not %d. got=%s", value,
+            integer.TokenLiteral())
+        return false
+    }
+
+    return true
 }
