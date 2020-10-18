@@ -394,7 +394,7 @@ func (p *Parser) parseFunctionExpression() ast.Expression {
 func (p *Parser) parseFunctionParameters() []*ast.Identifier {
     var identifiers []*ast.Identifier
 
-    if p.expectPeek(token.RPAREN) {
+    if p.peekTokenIs(token.RPAREN) {
         p.nextToken()
         return identifiers
     }
@@ -417,7 +417,7 @@ func (p *Parser) parseFunctionParameters() []*ast.Identifier {
         identifiers = append(identifiers, ident)
     }
 
-    if !p.expectPeek(token.RBRACE) {
+    if !p.expectPeek(token.RPAREN) {
         return nil
     }
 
