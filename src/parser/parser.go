@@ -164,23 +164,23 @@ const (
     _ int = iota
     LOWEST
     EQUALS      // == or !=
-    LESSGREATER // > or < or >= or <=
+    LESSGREATER // >, <, >=, <=
     SUM         // +
     PRODUCT     // *
     PREFIX      // -X or !X
-    CALL        // myFunction(X)
+    CALL        // superFunc(X)
 )
 
 var precedences = map[token.TokenType]int{
-    token.EQ: EQUALS,
-    token.NOT_EQ: EQUALS,
-    token.GT: LESSGREATER,
-    token.LT: LESSGREATER,
-    token.GTEQ: LESSGREATER,
-    token.LTEQ: LESSGREATER,
-    token.PLUS: SUM,
-    token.MINUS: SUM,
-    token.SLASH: PRODUCT,
+    token.EQ:       EQUALS,
+    token.NOT_EQ:   EQUALS,
+    token.GT:       LESSGREATER,
+    token.LT:       LESSGREATER,
+    token.GTEQ:     LESSGREATER,
+    token.LTEQ:     LESSGREATER,
+    token.PLUS:     SUM,
+    token.MINUS:    SUM,
+    token.SLASH:    PRODUCT,
     token.ASTERISK: PRODUCT,
 }
 
@@ -255,7 +255,7 @@ func (p *Parser) parsePrefixExpression() ast.Expression {
 func (p *Parser) parseInfixExpression(left ast.Expression) ast.Expression {
     expression := &ast.InfixExpression{
         Token:    p.curToken,
-        Left: left,
+        Left:     left,
         Operator: p.curToken.Literal,
     }
 
