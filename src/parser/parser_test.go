@@ -185,10 +185,12 @@ func TestParsingPrefixExpressions(t *testing.T) {
     prefixTests := []struct {
         input        string
         operator     string
-        integerValue int64
+        integerValue interface{}
     }{
         {"!7", "!", 7},
         {"-1337", "-", 1337},
+        {"!true;", "!", true},
+        {"!false;", "!", false},
     }
 
     for _, tt := range prefixTests {
@@ -218,7 +220,7 @@ func TestParsingPrefixExpressions(t *testing.T) {
                 tt.operator, exp.Operator)
         }
 
-        if !testIntegerLiteral(t, exp.Right, tt.integerValue) {
+        if !testLiteralExpression(t, exp.Right, tt.integerValue) {
             return
         }
     }
