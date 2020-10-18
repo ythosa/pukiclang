@@ -1,8 +1,21 @@
 # pukiclang
 ![pukiclang](https://github.com/Ythosa/pukiclang/workflows/pukiclang/badge.svg)
 
+```
+⠀ ⠀⠀⠀⠀⠀⠀⠀／＞　 フ
+　　　　　| 　_　 _|
+　 　　　／'ミ _x 彡
+　　 　 /　　　 　 |
+　　　 /　 ヽ　　 ﾉ
+　／￣|　　 |　|　|
+　| (￣ヽ＿_ヽ_)_)
+　＼二つ
+```
+
 ## Description
-PukicLang is interpreter for PukicLang programming language
+Pukiclang is interpreter for pukiclang programming language.
+
+_Already has lexer and parser!_
 
 ## Syntax
 
