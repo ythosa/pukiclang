@@ -3,6 +3,7 @@ package evaluator_test
 import (
     "testing"
 
+    "github.com/ythosa/pukiclang/src/evaluator"
     "github.com/ythosa/pukiclang/src/lexer"
     "github.com/ythosa/pukiclang/src/object"
     "github.com/ythosa/pukiclang/src/parser"
@@ -18,7 +19,8 @@ func TestEvalIntegerExpression(t *testing.T) {
     }
 
     for _, tt := range tests {
-
+        evaluated := testEval(tt.input)
+        testIntegerObject(t, evaluated, tt.expected)
     }
 }
 
@@ -27,7 +29,7 @@ func testEval(input string) object.Object {
     p := parser.New(l)
     program := p.ParseProgram()
 
-    return Eval(program)
+    return evaluator.Eval(program)
 }
 
 func testIntegerObject(t *testing.T, obj object.Object, expected int64) bool {
