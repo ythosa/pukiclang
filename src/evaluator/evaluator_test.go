@@ -16,6 +16,8 @@ func TestEvalIntegerExpression(t *testing.T) {
     }{
         {"228", 228},
         {"1337", 1337},
+        {"-228", -228},
+        {"-1337", -1337},
     }
 
     for _, tt := range tests {
@@ -41,7 +43,7 @@ func TestEvalBooleanExpression(t *testing.T) {
 
 func TestBangOperator(t *testing.T) {
     tests := []struct {
-        input string
+        input    string
         expected bool
     }{
         {"!true", false},
