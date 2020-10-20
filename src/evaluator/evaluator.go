@@ -5,6 +5,11 @@ import (
     "github.com/ythosa/pukiclang/src/object"
 )
 
+var (
+    TRUE  = &object.Boolean{Value: true}
+    FALSE = &object.Boolean{Value: false}
+)
+
 func Eval(node ast.Node) object.Object {
     switch node := node.(type) {
     // Statements
@@ -21,9 +26,7 @@ func Eval(node ast.Node) object.Object {
         }
 
     case *ast.Boolean:
-        return &object.Boolean{
-            Value: node.Value,
-        }
+        return nativeBoolToBooleanObject(node.Value)
     }
 
     return nil
@@ -37,4 +40,11 @@ func evalStatements(stmts []ast.Statement) object.Object {
     }
 
     return result
+}
+
+func nativeBoolToBooleanObject(input bool) *object.Boolean {
+    if input {
+        return TRUE
+    }
+    return FALSE
 }
