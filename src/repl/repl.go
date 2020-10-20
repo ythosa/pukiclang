@@ -5,6 +5,7 @@ import (
     "fmt"
     "io"
 
+    "github.com/ythosa/pukiclang/src/evaluator"
     "github.com/ythosa/pukiclang/src/lexer"
     "github.com/ythosa/pukiclang/src/parser"
 )
@@ -31,7 +32,8 @@ func Start(in io.Reader, out io.Writer) {
             continue
         }
 
-        _, _ = io.WriteString(out, program.String())
+        evaluated := evaluator.Eval(program)
+        _, _ = io.WriteString(out, evaluated.Inspect())
         _, _ = io.WriteString(out, "\n")
     }
 }
