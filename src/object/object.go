@@ -83,7 +83,7 @@ type Error struct {
 
 // Inspect returns string representation of object
 func (e *Error) Inspect() string {
-	return fmt.Sprintf("Error: %s", e.message)
+	return fmt.Sprintf("Error: %s", e.Message)
 }
 
 // Type returns type of object

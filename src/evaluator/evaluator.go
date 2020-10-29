@@ -1,6 +1,8 @@
 package evaluator
 
 import (
+	"fmt"
+
 	"github.com/ythosa/pukiclang/src/ast"
 	"github.com/ythosa/pukiclang/src/object"
 )
@@ -59,8 +61,11 @@ func evalProgram(program *ast.Program) object.Object {
 	for _, statement := range program.Statements {
 		result = Eval(statement)
 
-		if returnValue, ok := result.(*object.ReturnValue); ok {
-			return returnValue.Value
+		switch result := result.(type) {
+		case *object.ReturnValue:
+			return result.Value
+		case *object.Error:
+			return result
 		}
 	}
 
@@ -73,8 +78,11 @@ func evalBlockStatement(stmts []ast.Statement) object.Object {
 	for _, statement := range stmts {
 		result = Eval(statement)
 
-		if result != nil && result.Type() == object.RETURN_VALUE_OBJ {
-			return result
+		if result != nil {
+			rt := result.Type()
+			if rt == object.RETURN_VALUE_OBJ || rt == object.ERROR_OBJ {
+				return result
+			}
 		}
 	}
 
@@ -95,7 +103,7 @@ func evalPrefixExpression(operator string, right object.Object) object.Object {
 	case "-":
 		return evalMinusPrefixOperatorExpression(right)
 	default:
-		return NULL
+		return newError("unknown operator: %s%s", operator, right.Type())
 	}
 }
 
@@ -114,7 +122,7 @@ func evalBangOperatorExpression(right object.Object) object.Object {
 
 func evalMinusPrefixOperatorExpression(right object.Object) object.Object {
 	if right.Type() != object.INTEGER_OBJ {
-		return NULL
+		return newError("unknown operator: -%s", right.Type())
 	}
 
 	value := right.(*object.Integer).Value
@@ -130,8 +138,10 @@ func evalInfixExpression(operator string, left object.Object, right object.Objec
 		return nativeBoolToBooleanObject(left == right)
 	case operator == "!=":
 		return nativeBoolToBooleanObject(left != right)
+	case left.Type() != right.Type():
+		return newError("type mismatch: %s %s %s", left.Type(), operator, right.Type())
 	default:
-		return NULL
+		return newError("unknown operator: %s %s %s", left.Type(), operator, right.Type())
 	}
 }
 
@@ -165,7 +175,7 @@ func evalInfixIntegerExpression(
 	case "!=":
 		return nativeBoolToBooleanObject(leftVal != rightVal)
 	default:
-		return NULL
+		return newError("unknown operator: %s %s %s", left.Type(), operator, right.Type())
 	}
 }
 
@@ -192,4 +202,8 @@ func isTruthy(obj object.Object) bool {
 	default:
 		return true
 	}
+}
+
+func newError(format string, a ...interface{}) *object.Error {
+	return &object.Error{Message: fmt.Sprintf(format, a...)}
 }
