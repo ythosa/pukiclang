@@ -78,7 +78,7 @@ func (rv *ReturnValue) Type() ObjectType {
 
 // Error is type for errors handling
 type Error struct {
-	message string
+	Message string
 }
 
 // Inspect returns string representation of object
