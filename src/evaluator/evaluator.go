@@ -67,11 +67,16 @@ func Eval(node ast.Node, env *object.Environment) object.Object {
 
 		return &object.ReturnValue{Value: val}
 
+	case *ast.Identifier:
+		return evalIdentifier(node, env)
+
 	case *ast.LetStatement:
 		val := Eval(node.Value, env)
 		if isError(val) {
 			return val
 		}
+
+		env.Set(node.Name.Value, val)
 	}
 
 	return nil
@@ -227,6 +232,15 @@ func isTruthy(obj object.Object) bool {
 	default:
 		return true
 	}
+}
+
+func evalIdentifier(node *ast.Identifier, env *object.Environment) object.Object {
+	val, ok := env.Get(node.Value)
+	if !ok {
+		return newError(fmt.Sprintf("identifier not found: %s", node.Value))
+	}
+
+	return val
 }
 
 func newError(format string, a ...interface{}) *object.Error {
