@@ -2,15 +2,8 @@ package object
 
 import "fmt"
 
-type ObjectType string
-
-const (
-	INTEGER_OBJ      = "INTEGER"
-	BOOLEAN_OBJ      = "BOOLEAN"
-	NULL_OBJ         = "NULL"
-	RETURN_VALUE_OBJ = "RETURN_VALUE"
-	ERROR_OBJ        = "ERROR"
-)
+// Type is type of object which represented with string
+type Type string
 
 // NewEnvironment returns new environment
 func NewEnvironment() *Environment {
@@ -37,7 +30,7 @@ func (e *Environment) Set(name string, value Object) Object {
 
 // Object interface
 type Object interface {
-	Type() ObjectType
+	Type() Type
 	Inspect() string
 }
 
@@ -52,8 +45,8 @@ func (i *Integer) Inspect() string {
 }
 
 // Type returns type of object
-func (i *Integer) Type() ObjectType {
-	return INTEGER_OBJ
+func (i *Integer) Type() Type {
+	return IntegerObj
 }
 
 // Boolean is type for boolean expressions
@@ -67,8 +60,8 @@ func (b *Boolean) Inspect() string {
 }
 
 // Type returns type of object
-func (b *Boolean) Type() ObjectType {
-	return BOOLEAN_OBJ
+func (b *Boolean) Type() Type {
+	return BooleanObj
 }
 
 // Null is type for null expressions
@@ -80,8 +73,8 @@ func (n *Null) Inspect() string {
 }
 
 // Type returns type of object
-func (n *Null) Type() ObjectType {
-	return NULL_OBJ
+func (n *Null) Type() Type {
+	return NullObj
 }
 
 // ReturnValue is type for return expressions
@@ -95,8 +88,8 @@ func (rv *ReturnValue) Inspect() string {
 }
 
 // Type returns type of object
-func (rv *ReturnValue) Type() ObjectType {
-	return RETURN_VALUE_OBJ
+func (rv *ReturnValue) Type() Type {
+	return ReturnValueObj
 }
 
 // Error is type for errors handling
@@ -110,6 +103,6 @@ func (e *Error) Inspect() string {
 }
 
 // Type returns type of object
-func (e *Error) Type() ObjectType {
-	return ERROR_OBJ
+func (e *Error) Type() Type {
+	return ErrorObj
 }
