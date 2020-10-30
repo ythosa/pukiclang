@@ -66,6 +66,12 @@ func Eval(node ast.Node) object.Object {
 		}
 
 		return &object.ReturnValue{Value: val}
+
+	case *ast.LetStatement:
+		val := Eval(node.Value)
+		if isError(val) {
+			return val
+		}
 	}
 
 	return nil
