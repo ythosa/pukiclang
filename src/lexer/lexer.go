@@ -158,7 +158,7 @@ func makeTwoCharComparisonToken(current byte) token.Token {
 		return token.Token{Type: token.EQ, Literal: "=="}
 	}
 	if current == '!' {
-		return token.Token{Type: token.NOT_EQ, Literal: "!="}
+		return token.Token{Type: token.NOTEQ, Literal: "!="}
 	}
 	if current == '>' {
 		return token.Token{Type: token.GTEQ, Literal: ">="}
