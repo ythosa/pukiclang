@@ -14,17 +14,33 @@ type Type string
 // NewEnvironment returns new environment
 func NewEnvironment() *Environment {
 	s := make(map[string]Object)
-	return &Environment{store: s}
+	return &Environment{
+		store: s,
+		outer: nil,
+	}
+}
+
+// NewEnclosedEnvironment returns new environment with pointer on outer environment
+func NewEnclosedEnvironment(outer *Environment) *Environment {
+	env := NewEnvironment()
+	env.outer = outer
+
+	return env
 }
 
 // Environment is type for environment
 type Environment struct {
 	store map[string]Object
+	outer *Environment
 }
 
 // Get returns object in environment and is environment contains it with passed name
 func (e *Environment) Get(name string) (Object, bool) {
 	obj, ok := e.store[name]
+	if !ok && e.outer != nil {
+		obj, ok = e.outer.Get(name)
+	}
+
 	return obj, ok
 }
 
