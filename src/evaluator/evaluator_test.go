@@ -310,3 +310,16 @@ func TestFunctionApplication(t *testing.T) {
 		testIntegerObject(t, testEval(tt.input), tt.expected)
 	}
 }
+
+func TestClosures(t *testing.T) {
+	input := `
+	let newPopkaTani = fn(x) {
+		fn(y) {x + y};
+	};
+
+	let sex = newPopkaTani(1);
+	sex(2);
+	`
+
+	testIntegerObject(t, testEval(input), 3)
+}
