@@ -384,6 +384,8 @@ func TestBuiltinFunctions(t *testing.T) {
 		{`len([1,2,2,3])`, 4},
 		{`first("first")`, "f"},
 		{`first([1,2,3])`, 1},
+		{`last("last")`, "t"},
+		{`last([1,2,3])`, 3},
 	}
 	for _, tt := range tests {
 		evaluated := testEval(tt.input)
