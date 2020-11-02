@@ -86,6 +86,21 @@ func (b *Boolean) Type() Type {
 	return BooleanObj
 }
 
+// String is type for string expressions
+type String struct {
+	Value string
+}
+
+// Inspect returns string representation of object
+func (s *String) Inspect() string {
+	return s.Value
+}
+
+// Type returns type of object
+func (s *String) Type() Type {
+	return StringObj
+}
+
 // Null is type for null expressions
 type Null struct{}
 

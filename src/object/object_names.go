@@ -4,6 +4,7 @@ package object
 const (
 	IntegerObj     = "INTEGER"
 	BooleanObj     = "BOOLEAN"
+	StringObj      = "STRING"
 	NullObj        = "NULL"
 	ReturnValueObj = "RETURN_VALUE"
 	ErrorObj       = "ERROR"
