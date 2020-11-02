@@ -33,7 +33,7 @@ let myArray = [1, 2, 3, 4, 5];
 
 ### Hashmaps:
 ```
-let zalupa = {"name": "Ruslanchik", "age": 16};
+let yay = {"name": "Ruslanchik", "age": 16};
 ```
 
 ### Functions:
