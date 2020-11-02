@@ -15,7 +15,7 @@
 ## Description
 Pukiclang is interpreter for pukiclang programming language.
 
-_Already has lexer and parser!_
+_All that pukiclang is capable of you can find in [this file](https://github.com/Ythosa/pukiclang/blob/main/src/evaluator/evaluator_test.go)_
 
 ## Syntax
 
@@ -33,7 +33,7 @@ let myArray = [1, 2, 3, 4, 5];
 
 ### Hashmaps:
 ```
-let zalupa = {"name": "Thorsten", "age": 28};
+let zalupa = {"name": "Ruslanchik", "age": 16};
 ```
 
 ### Functions:
