@@ -236,6 +236,24 @@ func (b *Boolean) String() string {
 	return b.Token.Literal
 }
 
+// StringLiteral is type for string literals
+type StringLiteral struct {
+	Token token.Token
+	Value string
+}
+
+func (sl *StringLiteral) expressionNode() {}
+
+// TokenLiteral returns token literal of the node
+func (sl *StringLiteral) TokenLiteral() string {
+	return sl.Token.Literal
+}
+
+// String returns string representation of the node
+func (sl *StringLiteral) String() string {
+	return sl.Token.Literal
+}
+
 // IfExpression is type for if expressions in the AST tree
 type IfExpression struct {
 	Token       token.Token // The 'if' token
