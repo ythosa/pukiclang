@@ -10,6 +10,7 @@ var builtIns = map[string]*object.BuiltIn{
 	"last":  &object.BuiltIn{Fn: last},
 	"tail":  &object.BuiltIn{Fn: tail},
 	"push":  &object.BuiltIn{Fn: push},
+	"sum":   &object.BuiltIn{Fn: sum},
 }
 
 func lenBuiltIn(args ...object.Object) object.Object {
@@ -142,4 +143,31 @@ func push(args ...object.Object) object.Object {
 	newElements[length] = args[1]
 
 	return &object.Array{Elements: newElements}
+}
+
+func sum(args ...object.Object) object.Object {
+	if len(args) != 1 {
+		return newError("wrong number of arguments. got=%d, want=1",
+			len(args))
+	}
+
+	if args[0].Type() != object.ArrayObj {
+		return newError("first argument to `sum` must be ARRAY, got %s",
+			args[0].Type())
+	}
+
+	var sum object.Integer
+
+	elements := args[0].(*object.Array).Elements
+	for _, e := range elements {
+		switch e.Type() {
+		case object.IntegerObj:
+			sum.Value += e.(*object.Integer).Value
+		default:
+			return newError("unsupported type to `sum`, got %s",
+				e.Type())
+		}
+	}
+
+	return &sum
 }

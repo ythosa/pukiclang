@@ -389,6 +389,8 @@ func TestBuiltinFunctions(t *testing.T) {
 		{`tail([1,2,3])`, []interface{}{2, 3}},
 		{`tail("123")`, "23"},
 		{`push([1,2,3], true)`, []interface{}{1, 2, 3, true}},
+		{`sum([1,2,3])`, 6},
+		{`sum([1,true])`, "unsupported type to `sum`, got BOOLEAN"},
 	}
 
 	for _, tt := range tests {
