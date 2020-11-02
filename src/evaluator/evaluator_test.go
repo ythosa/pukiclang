@@ -388,6 +388,7 @@ func TestBuiltinFunctions(t *testing.T) {
 		{`last([1,2,3])`, 3},
 		{`tail([1,2,3])`, []interface{}{2, 3}},
 		{`tail("123")`, "23"},
+		{`push([1,2,3], true)`, []interface{}{1, 2, 3, true}},
 	}
 
 	for _, tt := range tests {
@@ -420,6 +421,14 @@ func testArrayObject(t *testing.T, array object.Object, expected []interface{}) 
 			left := el.(*object.Integer)
 			right := expected[i].(int)
 			if left.Value != int64(right) {
+				t.Errorf("invalid array data. expected=%q, got=%q",
+					expected[i], el)
+			}
+
+		case object.BooleanObj:
+			left := el.(*object.Boolean)
+			right := expected[i].(bool)
+			if left.Value != right {
 				t.Errorf("invalid array data. expected=%q, got=%q",
 					expected[i], el)
 			}

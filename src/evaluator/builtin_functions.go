@@ -9,6 +9,7 @@ var builtIns = map[string]*object.BuiltIn{
 	"first": &object.BuiltIn{Fn: first},
 	"last":  &object.BuiltIn{Fn: last},
 	"tail":  &object.BuiltIn{Fn: tail},
+	"push":  &object.BuiltIn{Fn: push},
 }
 
 func lenBuiltIn(args ...object.Object) object.Object {
@@ -120,4 +121,25 @@ func tail(args ...object.Object) object.Object {
 		return newError("argument to `tail` not supported, got %s",
 			args[0].Type())
 	}
+}
+
+func push(args ...object.Object) object.Object {
+	if len(args) != 2 {
+		return newError("wrong number of arguments. got=%d, want=2",
+			len(args))
+	}
+
+	if args[0].Type() != object.ArrayObj {
+		return newError("argument to `push` must be ARRAY, got %s",
+			args[0].Type())
+	}
+
+	arr := args[0].(*object.Array)
+	length := len(arr.Elements)
+
+	newElements := make([]object.Object, length+1, length+1)
+	copy(newElements, arr.Elements)
+	newElements[length] = args[1]
+
+	return &object.Array{Elements: newElements}
 }
