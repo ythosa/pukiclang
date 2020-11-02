@@ -386,13 +386,18 @@ func TestBuiltinFunctions(t *testing.T) {
 		{`first([1,2,3])`, 1},
 		{`last("last")`, "t"},
 		{`last([1,2,3])`, 3},
+		{`tail([1,2,3])`, []interface{}{2, 3}},
+		{`tail("123")`, "23"},
 	}
+
 	for _, tt := range tests {
 		evaluated := testEval(tt.input)
 
 		switch expected := tt.expected.(type) {
 		case int:
 			testIntegerObject(t, evaluated, int64(expected))
+		case []interface{}:
+			testArrayObject(t, evaluated, expected)
 		case string:
 			if errObj, ok := evaluated.(*object.Error); ok {
 				if errObj.Message != expected {
@@ -402,6 +407,25 @@ func TestBuiltinFunctions(t *testing.T) {
 			} else {
 				testStringObject(t, evaluated, string(expected))
 			}
+		}
+	}
+}
+
+func testArrayObject(t *testing.T, array object.Object, expected []interface{}) {
+	arr := array.(*object.Array)
+
+	for i, el := range arr.Elements {
+		switch el.Type() {
+		case object.IntegerObj:
+			left := el.(*object.Integer)
+			right := expected[i].(int)
+			if left.Value != int64(right) {
+				t.Errorf("invalid array data. expected=%q, got=%q",
+					expected[i], el)
+			}
+
+		default:
+			t.Fatalf("unsupported type. got=%T", el)
 		}
 	}
 }

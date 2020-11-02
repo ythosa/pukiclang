@@ -8,6 +8,7 @@ var builtIns = map[string]*object.BuiltIn{
 	"len":   &object.BuiltIn{Fn: lenBuiltIn},
 	"first": &object.BuiltIn{Fn: first},
 	"last":  &object.BuiltIn{Fn: last},
+	"tail":  &object.BuiltIn{Fn: tail},
 }
 
 func lenBuiltIn(args ...object.Object) object.Object {
@@ -81,7 +82,42 @@ func last(args ...object.Object) object.Object {
 		return NULL
 
 	default:
-		return newError("argument to `len` not supported, got %s",
+		return newError("argument to `last` not supported, got %s",
+			args[0].Type())
+	}
+}
+
+func tail(args ...object.Object) object.Object {
+	if len(args) != 1 {
+		return newError("wrong number of arguments. got=%d, want=1", len(args))
+	}
+
+	switch arg := args[0].(type) {
+	case *object.String:
+		length := len(arg.Value)
+		if length > 0 {
+			tailOfString := make([]byte, length-1, length-1)
+
+			copy([]byte(tailOfString), []byte(arg.Value[1:]))
+
+			return &object.String{Value: string(tailOfString)}
+		}
+		return NULL
+
+	case *object.Array:
+		length := len(arg.Elements)
+		if length > 0 {
+			tailOfArray := make([]object.Object, length-1, length-1)
+
+			copy(tailOfArray, arg.Elements[1:])
+
+			return &object.Array{Elements: tailOfArray}
+		}
+
+		return NULL
+
+	default:
+		return newError("argument to `tail` not supported, got %s",
 			args[0].Type())
 	}
 }
