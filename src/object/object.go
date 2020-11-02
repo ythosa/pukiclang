@@ -56,6 +56,24 @@ type Object interface {
 	Inspect() string
 }
 
+// BuiltInFunction is type for built in interpeter function
+type BuiltInFunction func(args ...Object) Object
+
+// BuiltIn is type for built in functionality into interpreter
+type BuiltIn struct {
+	Fn BuiltInFunction
+}
+
+// Inspect returns string representation of object
+func (bi *BuiltIn) Inspect() string {
+	return fmt.Sprintf("built in function")
+}
+
+// Type returns type of object
+func (bi *BuiltIn) Type() Type {
+	return BuiltInObj
+}
+
 // Integer interface
 type Integer struct {
 	Value int64
