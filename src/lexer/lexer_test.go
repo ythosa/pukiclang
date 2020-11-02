@@ -29,9 +29,12 @@ if (5 < 10) {
 10 != 9;
 
 2 >= 1 <= 3
+
+"topka \"pani\""
+"nice"
 `
 	tests := []struct {
-		expectedType    token.TokenType
+		expectedType    token.Type
 		expectedLiteral string
 	}{
 		{token.LET, "let"},
@@ -112,6 +115,8 @@ if (5 < 10) {
 		{token.INT, "1"},
 		{token.LTEQ, "<="},
 		{token.INT, "3"},
+		{token.STRING, "topka \"pani\""},
+		{token.STRING, "nice"},
 		{token.EOF, ""},
 	}
 

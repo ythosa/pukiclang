@@ -1,9 +1,11 @@
 package token
 
-type TokenType string
+// Type is type of token
+type Type string
 
+// Token is type for token which contains type and literal
 type Token struct {
-	Type    TokenType
+	Type    Type
 	Literal string // todo: in the feature need to contain number of string, filename, etc.
 }
 
@@ -13,8 +15,9 @@ const (
 	EOF     = "EOF"
 
 	// Identifiers + literals
-	IDENT = "IDENT" // add, foobar, x, y, ...
-	INT   = "INT"   // 1343456
+	IDENT  = "IDENT" // add, foobar, x, y, ...
+	INT    = "INT"   // 1343456
+	STRING = "STRING"
 
 	// Operators
 	ASSIGN   = "="
@@ -51,7 +54,7 @@ const (
 	RETURN   = "RETURN"
 )
 
-var keywords = map[string]TokenType{
+var keywords = map[string]Type{
 	"fn":     FUNCTION,
 	"let":    LET,
 	"true":   TRUE,
@@ -62,7 +65,7 @@ var keywords = map[string]TokenType{
 }
 
 // LookupIdent returns type of passed token (string)
-func LookupIdent(ident string) TokenType {
+func LookupIdent(ident string) Type {
 	if tok, ok := keywords[ident]; ok {
 		return tok
 	}

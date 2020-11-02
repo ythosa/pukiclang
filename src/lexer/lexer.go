@@ -74,6 +74,9 @@ func (l *Lexer) NextToken() token.Token {
 		tok = newToken(token.LBRACE, l.ch)
 	case '}':
 		tok = newToken(token.RBRACE, l.ch)
+	case '"':
+		tok.Type = token.STRING
+		tok.Literal = l.readString()
 	case 0:
 		tok.Literal = ""
 		tok.Type = token.EOF
@@ -96,7 +99,7 @@ func (l *Lexer) NextToken() token.Token {
 	return tok
 }
 
-func newToken(tokenType token.TokenType, ch byte) token.Token {
+func newToken(tokenType token.Type, ch byte) token.Token {
 	return token.Token{
 		Type:    tokenType,
 		Literal: string(ch),
@@ -134,6 +137,30 @@ func (l *Lexer) readIdentifier() string {
 	}
 
 	return l.input[position:l.position]
+}
+
+func (l *Lexer) readString() string {
+	var str []byte
+
+	for {
+		l.readChar()
+
+		if l.ch == 0 {
+			break
+		}
+
+		if l.ch == '\\' {
+			l.readChar()
+		}
+
+		if l.input[l.position-1] != '\\' && l.ch == '"' {
+			break
+		}
+
+		str = append(str, l.ch)
+	}
+
+	return string(str[:])
 }
 
 func isLetter(ch byte) bool {
