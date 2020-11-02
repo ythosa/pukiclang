@@ -399,3 +399,30 @@ func (al *ArrayLiteral) String() string {
 
 	return out.String()
 }
+
+// IndexExpression is type for `<expression>[<expression>]` index expressions
+type IndexExpression struct {
+	Token token.Token // The '[' token
+	Left  Expression
+	Index Expression
+}
+
+func (ie *IndexExpression) expressionNode() {}
+
+// TokenLiteral returns token literal of the node
+func (ie *IndexExpression) TokenLiteral() string {
+	return ie.Token.Literal
+}
+
+// String returns string representation of the node
+func (ie *IndexExpression) String() string {
+	var out bytes.Buffer
+
+	out.WriteString("(")
+	out.WriteString(ie.Left.String())
+	out.WriteString("[")
+	out.WriteString(ie.Index.String())
+	out.WriteString("])")
+
+	return out.String()
+}
