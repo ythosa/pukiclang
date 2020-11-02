@@ -8,7 +8,7 @@ import (
 	"github.com/ythosa/pukiclang/src/repl"
 )
 
-const PUKICLANG = `
+const pukiclang = `
 ⠀ ⠀⠀⠀⠀⠀⠀   ／＞　 フ
 　　　　　| 　_　 _|
 　 　　　／'ミ _x 彡
@@ -24,7 +24,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	fmt.Print(PUKICLANG)
+	fmt.Print(pukiclang)
 	fmt.Printf("Hello %s! This is the pukiclang programming language!\n",
 		u.Username)
 	fmt.Printf("Feel free to type in commands\n")
