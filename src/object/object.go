@@ -192,3 +192,29 @@ func (f *Function) Inspect() string {
 
 	return out.String()
 }
+
+// Array is type for array objects
+type Array struct {
+	Elements []Object
+}
+
+// Type returns type of object
+func (a *Array) Type() Type {
+	return ArrayObj
+}
+
+// Inspect returns string representation of object
+func (a *Array) Inspect() string {
+	var out bytes.Buffer
+
+	elements := []string{}
+	for _, e := range a.Elements {
+		elements = append(elements, e.Inspect())
+	}
+
+	out.WriteString("[")
+	out.WriteString(strings.Join(elements, ", "))
+	out.WriteString("]")
+
+	return out.String()
+}
