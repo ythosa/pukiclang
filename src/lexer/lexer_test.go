@@ -32,6 +32,8 @@ if (5 < 10) {
 
 "topka \"pani\""
 "nice"
+
+[1337, 228];
 `
 	tests := []struct {
 		expectedType    token.Type
@@ -117,6 +119,12 @@ if (5 < 10) {
 		{token.INT, "3"},
 		{token.STRING, "topka \"pani\""},
 		{token.STRING, "nice"},
+		{token.LBRACKET, "["},
+		{token.INT, "1337"},
+		{token.COMMA, ","},
+		{token.INT, "228"},
+		{token.RBRACKET, "]"},
+		{token.SEMICOLON, ";"},
 		{token.EOF, ""},
 	}
 
