@@ -380,6 +380,7 @@ func TestBuiltinFunctions(t *testing.T) {
 					evaluated, evaluated)
 				continue
 			}
+
 			if errObj.Message != expected {
 				t.Errorf("wrong error message. expected=%q, got=%q",
 					expected, errObj.Message)
