@@ -220,9 +220,20 @@ func (a *Array) Inspect() string {
 	return out.String()
 }
 
+// Hashable is interface for hashable objects (such us strings, booleasn, integers)
+type Hashable interface {
+	HashKey() string
+}
+
+// HashPair is type for key value pair in hash map objects
+type HashPair struct {
+	Key   Object
+	Value Object
+}
+
 // Hash is type for hash map objects
 type Hash struct {
-	Pairs map[Object]Object
+	Pairs map[HashKey]HashPair
 }
 
 // Type returns type of object
@@ -235,8 +246,9 @@ func (h *Hash) Inspect() string {
 	var out bytes.Buffer
 
 	pairs := []string{}
-	for k, v := range h.Pairs {
-		pairs = append(pairs, k.Inspect()+":"+v.Inspect())
+	for _, pair := range h.Pairs {
+		pairs = append(pairs, fmt.Sprintf("%s:%s",
+			pair.Key.Inspect(), pair.Value.Inspect()))
 	}
 
 	out.WriteString("{")
