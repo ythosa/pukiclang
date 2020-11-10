@@ -222,7 +222,7 @@ func (a *Array) Inspect() string {
 
 // Hashable is interface for hashable objects (such us strings, booleasn, integers)
 type Hashable interface {
-	HashKey() string
+	HashKey() HashKey
 }
 
 // HashPair is type for key value pair in hash map objects
